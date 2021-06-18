@@ -21,6 +21,12 @@ describe(' testing the server', () => {
     expect(response.status).toEqual(200);
   });
 
+  test('testing a 200 for GET `/food:foodId`', async () => {
+    const response = await request.get('/food/1');
+
+    expect(response.status).toEqual(200);
+  });
+
   test('testing a 200 for POST `/food`', async () => {
     const response = await request.post('/food');
 
