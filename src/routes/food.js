@@ -1,5 +1,6 @@
 'use strict';
 
+const { response } = require('express');
 const express = require('express');
 
 const router = express.Router();
@@ -14,7 +15,7 @@ router.delete('/food/foodId', remove);
 async function getAll (req, res) {
   const foodItems = await data.food.findAll();
   console.log('food items in db', foodItems);
-  res.send('In Progress');
+  res.status(200).send(foodItems);
 }
 
 async function getOne (req, res) {
@@ -31,7 +32,7 @@ async function create (req, res) {
   const foodObject = req.body;
 
   const foodData = await data.food.create(foodObject);
-  res.send('In Progress');
+  res.status(200).send(foodData);
 }
 
 async function update (req, res) {
@@ -39,13 +40,17 @@ async function update (req, res) {
   const foodObject = req.body;
 
   const foodData = await data.food.findOne({where: { id: foodId}});
-  await foodData.update.foodObject;
+  await foodData.update(foodObject);
 
-  res.status(200).send(foodObject);
+  res.status(200).send(foodData);
 }
 
-function remove (req, res) {
-  res.send('In Progress');
+async function remove (req, res) {
+  const foodId = req.params.foodId;
+
+  await data.food.destroy({ where: { id: foodId}});
+
+  res.status(204).send('Success');
 }
 
 
