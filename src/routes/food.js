@@ -1,6 +1,6 @@
 'use strict';
 
-const { response } = require('express');
+// const { response } = require('express');
 const express = require('express');
 
 const router = express.Router();
@@ -9,8 +9,8 @@ const data = require('../models/index.js');
 router.get('/food', getAll);
 router.get('/food/:foodId', getOne);
 router.post('/food', create);
-router.put('/food/foodId', update);
-router.delete('/food/foodId', remove);
+router.put('/food/:foodId', update);
+router.delete('/food/:foodId', remove);
 
 async function getAll (req, res) {
   const foodItems = await data.food.findAll();
@@ -36,7 +36,7 @@ async function create (req, res) {
 }
 
 async function update (req, res) {
-  const foodId = res.params.foodId;
+  const foodId = req.params.foodId;
   const foodObject = req.body;
 
   const foodData = await data.food.findOne({where: { id: foodId}});
